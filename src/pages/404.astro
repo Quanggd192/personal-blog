@@ -1,0 +1,24 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+---
+
+<BaseLayout title="Không tìm thấy trang" noindex>
+  <div class="py-6">
+    <p class="text-sm font-semibold text-accent">Lỗi 404</p>
+    <h1 class="mt-2 text-5xl font-extrabold tracking-tight text-ink sm:text-6xl dark:text-cream">Không tìm thấy trang này.</h1>
+    <p class="mt-5 max-w-lg text-lg text-ink-soft dark:text-cream-soft">
+      Có lẽ trang này đã bị xé khỏi cuốn sổ, hoặc nó chưa từng được viết ra.
+    </p>
+    <div class="mt-8 flex flex-wrap gap-3">
+      <a href="/" class="rounded-full bg-accent px-5 py-2.5 text-sm font-semibold text-white no-underline hover:bg-accent-light">
+        Về trang đầu
+      </a>
+      <a
+        href="/search/"
+        class="rounded-full px-5 py-2.5 text-sm font-semibold text-ink no-underline ring-1 ring-rule hover:text-accent dark:text-cream dark:ring-night-rule"
+      >
+        Tìm trang khác
+      </a>
+    </div>
+  </div>
+</BaseLayout>

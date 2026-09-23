@@ -1,0 +1,25 @@
+---
+import BaseLayout from '../../../layouts/BaseLayout.astro';
+import PostList from '../../../components/PostList.astro';
+import { getPublishedPosts } from '../../../utils/posts';
+import { SITE } from '../../../consts';
+
+export async function getStaticPaths() {
+  const posts = await getPublishedPosts();
+  const last = Math.ceil(posts.length / SITE.postsPerPage);
+  return Array.from({ length: Math.max(0, last - 1) }, (_, i) => {
+    const current = i + 2;
+    const start = (current - 1) * SITE.postsPerPage;
+    return {
+      params: { page: String(current) },
+      props: { posts: posts.slice(start, start + SITE.postsPerPage), current, last },
+    };
+  });
+}
+
+const { posts, current, last } = Astro.props;
+---
+
+<BaseLayout title={`Bài viết - Trang ${current}`} description="Danh sách tất cả bài viết trên blog.">
+  <PostList posts={posts} current={current} last={last} />
+</BaseLayout>

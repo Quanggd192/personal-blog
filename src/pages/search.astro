@@ -1,0 +1,68 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import SectionHeading from '../components/SectionHeading.astro';
+---
+
+<BaseLayout title="Tìm" description="Tìm lại một trang viết.">
+  <SectionHeading kicker="Tra cứu" title="Tìm lại một trang viết">
+    <p class="mt-3 mb-8 text-ink-soft dark:text-cream-soft">Một chữ, một câu thơ, hay một cái tên.</p>
+  </SectionHeading>
+  <link href="/pagefind/pagefind-ui.css" rel="stylesheet" />
+  <div id="search"></div>
+  <noscript><p>Tính năng tìm kiếm cần bật JavaScript.</p></noscript>
+  <p id="search-dev-note" class="hidden text-sm text-ink-faint italic">
+    Chỉ mục tìm kiếm chỉ có sau khi chạy <code>npm run build</code>. Hãy dùng <code>npm run preview</code> để thử.
+  </p>
+</BaseLayout>
+
+<script is:inline>
+  const script = document.createElement('script');
+  script.src = '/pagefind/pagefind-ui.js';
+  script.onerror = () => document.getElementById('search-dev-note')?.classList.remove('hidden');
+  script.onload = () => {
+    const ui = new PagefindUI({
+      element: '#search',
+      showSubResults: true,
+      showImages: false,
+      resetStyles: false,
+      translations: {
+        placeholder: 'Nhập điều bạn nhớ...',
+        zero_results: 'Chưa có trang nào nhắc đến "[SEARCH_TERM]"',
+        many_results: '[COUNT] trang nhắc đến "[SEARCH_TERM]"',
+        one_result: '1 trang nhắc đến "[SEARCH_TERM]"',
+        load_more: 'Xem thêm',
+        filters_label: 'Lọc',
+        clear_search: 'Xoá',
+        searching: 'Đang lật tìm "[SEARCH_TERM]"...',
+      },
+    });
+    const q = new URLSearchParams(location.search).get('q');
+    if (q) ui.triggerSearch(q);
+  };
+  document.head.appendChild(script);
+</script>
+
+<style is:global>
+  #search {
+    --pagefind-ui-scale: 0.95;
+    --pagefind-ui-primary: var(--color-accent);
+    --pagefind-ui-text: var(--color-ink);
+    --pagefind-ui-background: #fff;
+    --pagefind-ui-border: var(--color-rule);
+    --pagefind-ui-tag: var(--color-paper-deep);
+    --pagefind-ui-border-width: 1px;
+    --pagefind-ui-border-radius: 16px;
+    --pagefind-ui-font: var(--font-sans);
+  }
+  .dark #search {
+    --pagefind-ui-primary: var(--color-accent-light);
+    --pagefind-ui-text: var(--color-cream);
+    --pagefind-ui-background: var(--color-night-deep);
+    --pagefind-ui-border: var(--color-night-rule);
+    --pagefind-ui-tag: var(--color-night);
+  }
+  #search .pagefind-ui__result-title {
+    font-size: 1.25rem;
+    font-weight: 800;
+  }
+</style>

@@ -1,0 +1,15 @@
+---
+interface Props {
+  kicker?: string;
+  title: string;
+  as?: 'h1' | 'h2';
+}
+
+const { kicker, title, as: Tag = 'h1' } = Astro.props;
+---
+
+<div class="mb-8">
+  {kicker && <p class="text-sm font-semibold text-accent">{kicker}</p>}
+  <Tag class="mt-1 text-4xl font-extrabold tracking-tight text-accent sm:text-5xl">{title}</Tag>
+  <slot />
+</div>

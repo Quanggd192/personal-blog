@@ -1,0 +1,32 @@
+---
+title: 'Mưa đêm'
+description: 'Mấy câu thơ viết vội trong một đêm mưa không ngủ được.'
+pubDate: 2026-09-16
+tags: ['Thơ']
+---
+
+export const Poem = ({ children }) => (
+  <div class="not-prose my-10 border-l-4 border-accent pl-6 font-display text-2xl leading-relaxed italic dark:border-accent-light">
+    {children}
+  </div>
+);
+export const Stanza = ({ children }) => <p class="mb-6 whitespace-pre-line last:mb-0">{children}</p>;
+
+Có những đêm mưa rơi không dứt, tôi ngồi bên cửa sổ và không viết nổi một câu văn nào cho tròn. Chỉ còn lại mấy dòng này.
+
+<Poem>
+<Stanza>{`Mưa rơi trên mái ngói già
+Rơi qua những tháng năm xa không về
+Ngọn đèn nhỏ, trang sách che
+Một người ngồi đợi một người không sang.`}</Stanza>
+
+<Stanza>{`Mưa rơi trên ngõ thênh thang
+Bước chân ai đã muộn màng hôm qua
+Chén trà nguội, khói trà xa
+Câu thơ chưa viết đã nhoà vào đêm.`}</Stanza>
+
+<Stanza>{`Mai kia nắng lại bên thềm
+Có còn ai nhớ một đêm mưa này?`}</Stanza>
+</Poem>
+
+Viết xong thì trời cũng vừa tạnh. Tôi để nguyên như thế, không sửa thêm chữ nào.

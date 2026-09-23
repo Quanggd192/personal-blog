@@ -1,0 +1,24 @@
+---
+interface Props {
+  current: number;
+  last: number;
+  prevUrl?: string;
+  nextUrl?: string;
+}
+
+const { current, last, prevUrl, nextUrl } = Astro.props;
+const linkClass =
+  'rounded-full bg-white px-4 py-2 text-sm font-semibold text-ink no-underline ring-1 ring-rule hover:text-accent dark:bg-night-deep dark:text-cream dark:ring-night-rule';
+---
+
+{
+  last > 1 && (
+    <nav class="mt-10 flex items-center justify-between" aria-label="Phân trang">
+      {prevUrl ? <a href={prevUrl} class={linkClass}>&larr; Mới hơn</a> : <span />}
+      <span class="text-sm font-semibold text-ink-faint dark:text-cream-faint">
+        Trang {current} / {last}
+      </span>
+      {nextUrl ? <a href={nextUrl} class={linkClass}>Cũ hơn &rarr;</a> : <span />}
+    </nav>
+  )
+}

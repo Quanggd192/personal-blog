@@ -1,0 +1,36 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import SectionHeading from '../../components/SectionHeading.astro';
+import { getPublishedPosts, getTagCounts } from '../../utils/posts';
+
+const tags = getTagCounts(await getPublishedPosts());
+const tones = [
+  'from-sky-500 to-blue-900',
+  'from-cyan-600 to-slate-900',
+  'from-sky-700 to-indigo-950',
+  'from-teal-500 to-sky-950',
+  'from-blue-500 to-cyan-900',
+];
+---
+
+<BaseLayout title="Chuyên mục" description="Các chuyên mục trên trang viết.">
+  <SectionHeading kicker="Mục lục" title="Chuyên mục" />
+  <ul class="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
+    {
+      tags.map(({ tag, slug, count }, index) => (
+        <li>
+          <a
+            href={`/tags/${slug}/`}
+            class:list={[
+              'flex h-44 flex-col justify-end rounded-[28px] bg-gradient-to-br p-5 no-underline',
+              tones[index % tones.length],
+            ]}
+          >
+            <span class="text-2xl font-extrabold text-white">{tag}</span>
+            <span class="text-sm text-white/80">{count} bài</span>
+          </a>
+        </li>
+      ))
+    }
+  </ul>
+</BaseLayout>

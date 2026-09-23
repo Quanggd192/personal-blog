@@ -1,0 +1,13 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import PostList from '../../components/PostList.astro';
+import { getPublishedPosts } from '../../utils/posts';
+import { SITE } from '../../consts';
+
+const posts = await getPublishedPosts();
+const last = Math.max(1, Math.ceil(posts.length / SITE.postsPerPage));
+---
+
+<BaseLayout title="Bài viết" description="Danh sách tất cả bài viết trên blog.">
+  <PostList posts={posts.slice(0, SITE.postsPerPage)} current={1} last={last} />
+</BaseLayout>

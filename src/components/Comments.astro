@@ -1,0 +1,55 @@
+---
+import { GISCUS } from '../consts';
+
+const configured = Boolean(GISCUS.repoId && GISCUS.categoryId);
+---
+
+<section class="mt-16" aria-label="Thư của người đọc" data-pagefind-ignore>
+  <h2 class="text-3xl font-extrabold tracking-tight text-accent">Thư của người đọc</h2>
+  <p class="mt-2 mb-6 text-ink-soft dark:text-cream-soft">Nếu trang viết này gợi lại điều gì đó, xin cứ để lại vài dòng.</p>
+  {
+    configured ? (
+      <div id="giscus-container" data-config={JSON.stringify(GISCUS)} />
+    ) : (
+      <p class="rounded-3xl border border-dashed border-rule p-4 text-sm text-ink-soft dark:border-night-rule dark:text-cream-soft">
+        Khung bình luận chưa được cấu hình. Điền <code>repoId</code> và <code>categoryId</code> của Giscus trong
+        <code>src/consts.ts</code>.
+      </p>
+    )
+  }
+</section>
+
+<script>
+  const container = document.getElementById('giscus-container');
+
+  const giscusTheme = () => (document.documentElement.classList.contains('dark') ? 'dark_dimmed' : 'light');
+
+  if (container?.dataset.config) {
+    const config = JSON.parse(container.dataset.config);
+    const script = document.createElement('script');
+    script.src = 'https://giscus.app/client.js';
+    script.async = true;
+    script.crossOrigin = 'anonymous';
+    const attrs: Record<string, string> = {
+      'data-repo': config.repo,
+      'data-repo-id': config.repoId,
+      'data-category': config.category,
+      'data-category-id': config.categoryId,
+      'data-mapping': config.mapping,
+      'data-strict': '0',
+      'data-reactions-enabled': '1',
+      'data-emit-metadata': '0',
+      'data-input-position': 'top',
+      'data-theme': giscusTheme(),
+      'data-lang': config.lang,
+      'data-loading': 'lazy',
+    };
+    for (const [key, value] of Object.entries(attrs)) script.setAttribute(key, value);
+    container.appendChild(script);
+
+    document.addEventListener('theme-change', () => {
+      const iframe = document.querySelector<HTMLIFrameElement>('iframe.giscus-frame');
+      iframe?.contentWindow?.postMessage({ giscus: { setConfig: { theme: giscusTheme() } } }, 'https://giscus.app');
+    });
+  }
+</script>

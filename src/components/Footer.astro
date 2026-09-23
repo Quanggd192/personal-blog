@@ -1,0 +1,29 @@
+---
+import { SITE, SOCIAL_LINKS } from '../consts';
+
+const year = new Date().getFullYear();
+---
+
+<footer class="mt-auto border-t border-rule bg-white dark:border-night-rule dark:bg-night-deep">
+  <div class="mx-auto flex w-full max-w-6xl flex-col gap-6 px-6 py-10 sm:flex-row sm:items-start sm:justify-between">
+    <div>
+      <p class="text-xl font-extrabold tracking-tight">{SITE.title}</p>
+      <p class="mt-2 max-w-sm text-sm text-ink-soft dark:text-cream-soft">{SITE.tagline}</p>
+    </div>
+    <ul class="flex flex-wrap gap-x-5 gap-y-2 text-sm font-semibold">
+      {
+        SOCIAL_LINKS.map(({ href, label }) => (
+          <li>
+            <a href={href} class="no-underline hover:text-accent" target="_blank" rel="noopener noreferrer">
+              {label}
+            </a>
+          </li>
+        ))
+      }
+      <li><a href="/rss.xml" class="no-underline hover:text-accent">RSS</a></li>
+    </ul>
+  </div>
+  <p class="mx-auto w-full max-w-6xl px-6 pb-8 text-sm text-ink-faint dark:text-cream-faint">
+    &copy; {year} {SITE.author}
+  </p>
+</footer>

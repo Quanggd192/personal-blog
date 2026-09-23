@@ -1,0 +1,26 @@
+---
+import PostCard from './PostCard.astro';
+import Pagination from './Pagination.astro';
+import SectionHeading from './SectionHeading.astro';
+import type { Post } from '../utils/posts';
+
+interface Props {
+  posts: Post[];
+  current: number;
+  last: number;
+}
+
+const { posts, current, last } = Astro.props;
+const pageUrl = (n: number) => (n === 1 ? '/blog/' : `/blog/page/${n}/`);
+---
+
+<SectionHeading kicker="Lưu trữ" title="Tất cả bài viết" />
+<div class="grid gap-6 sm:grid-cols-2">
+  {posts.map((post) => <PostCard post={post} />)}
+</div>
+<Pagination
+  current={current}
+  last={last}
+  prevUrl={current > 1 ? pageUrl(current - 1) : undefined}
+  nextUrl={current < last ? pageUrl(current + 1) : undefined}
+/>

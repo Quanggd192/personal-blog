@@ -1,0 +1,78 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import SectionHeading from '../components/SectionHeading.astro';
+import { SITE, SOCIAL_LINKS } from '../consts';
+
+const shelf = [
+  { title: 'Thương nhớ mười hai', author: 'Vũ Bằng' },
+  { title: 'Hà Nội băm sáu phố phường', author: 'Thạch Lam' },
+  { title: 'Rừng Na Uy', author: 'Haruki Murakami' },
+  { title: 'Những ngày thơ ấu', author: 'Nguyên Hồng' },
+  { title: 'Thư gửi người thi sĩ trẻ', author: 'Rainer Maria Rilke' },
+];
+
+const reading = { title: 'Đi tìm thời gian đã mất', author: 'Marcel Proust' };
+---
+
+<BaseLayout title="Người viết" description={`Đôi dòng về ${SITE.author}.`}>
+  <SectionHeading kicker="Người viết" title={SITE.author} />
+
+  <section class="prose mt-6 max-w-3xl dark:prose-invert">
+    <p>
+      Tôi là {SITE.author}, một người thích ngồi một mình ở góc quán quen với cuốn sách cũ và cuốn sổ tay. Tôi không
+      giỏi nói chuyện đông người, nên tôi viết. Viết để nhớ, để hiểu mình, và đôi khi để trò chuyện với những người lạ
+      mà tôi sẽ không bao giờ gặp.
+    </p>
+    <p>
+      Nơi này lưu lại những tản văn, vài truyện ngắn, thơ viết vội, và những ghi chép bên lề trang sách. Không có gì to
+      tát cả, chỉ là những điều nhỏ bé mà tôi sợ mình sẽ quên.
+    </p>
+    <blockquote><p>Hãy đi vào trong chính mình, và xem xét nơi sâu thẳm mà đời bạn khởi nguồn.</p></blockquote>
+    <p class="text-sm font-semibold text-ink-faint! dark:text-cream-faint!">— Rainer Maria Rilke</p>
+  </section>
+
+  <div class="mt-12 grid gap-6 lg:grid-cols-2">
+    <section class="rounded-[28px] bg-white p-6 ring-1 ring-rule dark:bg-night-deep dark:ring-night-rule">
+      <h2 class="text-2xl font-extrabold tracking-tight">Trên giá sách</h2>
+      <ul class="mt-4 divide-y divide-rule dark:divide-night-rule">
+        {
+          shelf.map(({ title, author }) => (
+            <li class="py-3">
+              <span class="block font-semibold">{title}</span>
+              <span class="text-sm text-ink-faint dark:text-cream-faint">{author}</span>
+            </li>
+          ))
+        }
+      </ul>
+    </section>
+
+    <div class="flex flex-col gap-6">
+      <section class="rounded-[28px] bg-white p-6 ring-1 ring-rule dark:bg-night-deep dark:ring-night-rule">
+        <h2 class="text-2xl font-extrabold tracking-tight">Đang đọc dở</h2>
+        <p class="mt-4 text-xl font-bold">{reading.title}</p>
+        <p class="text-sm text-ink-faint dark:text-cream-faint">{reading.author}</p>
+      </section>
+
+      <section id="gui-thu" class="scroll-mt-28 rounded-[28px] bg-white p-6 ring-1 ring-rule dark:bg-night-deep dark:ring-night-rule">
+        <h2 class="text-2xl font-extrabold tracking-tight">Gửi thư</h2>
+        <p class="mt-3 text-ink-soft dark:text-cream-soft">Tôi đọc hết mọi lá thư, dù đôi khi hồi âm hơi chậm.</p>
+        <ul class="mt-4 flex flex-wrap gap-3">
+          {
+            SOCIAL_LINKS.map(({ href, label }) => (
+              <li>
+                <a
+                  href={href}
+                  class="inline-flex rounded-full bg-accent px-4 py-2 text-sm font-semibold text-white no-underline hover:bg-accent-light"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                >
+                  {label}
+                </a>
+              </li>
+            ))
+          }
+        </ul>
+      </section>
+    </div>
+  </div>
+</BaseLayout>

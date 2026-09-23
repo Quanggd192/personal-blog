@@ -1,0 +1,24 @@
+---
+import { slugifyTag } from '../utils/posts';
+
+interface Props {
+  tags: string[];
+  class?: string;
+}
+
+const { tags, class: className } = Astro.props;
+---
+
+{
+  tags.length > 0 && (
+    <ul class:list={['flex flex-wrap gap-x-2 text-sm font-semibold text-accent', className]}>
+      {tags.map((tag) => (
+        <li>
+          <a href={`/tags/${slugifyTag(tag)}/`} class="no-underline hover:text-ink dark:hover:text-cream">
+            #{tag}
+          </a>
+        </li>
+      ))}
+    </ul>
+  )
+}

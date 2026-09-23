@@ -1,0 +1,129 @@
+@import '@fontsource-variable/plus-jakarta-sans/wght.css';
+@import '@fontsource-variable/plus-jakarta-sans/wght-italic.css';
+@import 'tailwindcss';
+@plugin '@tailwindcss/typography';
+
+@custom-variant dark (&:where(.dark, .dark *));
+
+@theme {
+  --font-sans: 'Plus Jakarta Sans Variable', 'Segoe UI', sans-serif;
+  --font-serif: 'Plus Jakarta Sans Variable', 'Segoe UI', sans-serif;
+  --font-display: 'Plus Jakarta Sans Variable', 'Segoe UI', sans-serif;
+  --font-label: 'Plus Jakarta Sans Variable', 'Segoe UI', sans-serif;
+
+  --color-paper: #f7f9fc;
+  --color-paper-deep: #e8eef5;
+  --color-ink: #0f2744;
+  --color-ink-soft: #4c6280;
+  --color-ink-faint: #7d90a8;
+  --color-rule: #d7e1ec;
+  --color-accent: #0ea5e9;
+
+  --color-night: #071422;
+  --color-night-deep: #10243d;
+  --color-cream: #e7eef6;
+  --color-cream-soft: #b7c6d8;
+  --color-cream-faint: #8498b0;
+  --color-night-rule: #1c3452;
+  --color-accent-light: #38bdf8;
+
+  --color-hero: #071525;
+  --color-hero-card: #10243f;
+}
+
+html {
+  scroll-behavior: smooth;
+  scroll-padding-top: 5.5rem;
+}
+
+body {
+  @apply bg-paper font-sans text-ink antialiased transition-colors duration-300 dark:bg-night dark:text-cream;
+}
+
+::selection {
+  @apply bg-accent text-white;
+}
+
+a {
+  @apply underline-offset-4 transition-colors;
+}
+
+.label {
+  @apply text-sm font-semibold;
+}
+
+.site-header {
+  color: var(--color-ink);
+  background: color-mix(in srgb, var(--color-paper) 88%, transparent);
+  border-bottom: 1px solid var(--color-rule);
+  backdrop-filter: blur(16px);
+}
+
+.dark .site-header {
+  color: var(--color-cream);
+  background: color-mix(in srgb, var(--color-night) 88%, transparent);
+  border-bottom-color: var(--color-night-rule);
+}
+
+.site-header.is-overlay:not(.is-scrolled) {
+  color: white;
+  background: transparent;
+  border-bottom-color: transparent;
+  backdrop-filter: none;
+}
+
+.prose {
+  --tw-prose-body: var(--color-ink);
+  --tw-prose-headings: var(--color-ink);
+  --tw-prose-links: var(--color-accent);
+  --tw-prose-bold: var(--color-ink);
+  --tw-prose-quotes: var(--color-ink);
+  --tw-prose-quote-borders: var(--color-accent);
+  --tw-prose-hr: var(--color-rule);
+  --tw-prose-bullets: var(--color-accent);
+  --tw-prose-counters: var(--color-accent);
+  --tw-prose-captions: var(--color-ink-faint);
+  --tw-prose-code: var(--color-ink);
+  font-size: 1.05rem;
+  line-height: 1.8;
+}
+
+.dark .prose {
+  --tw-prose-body: var(--color-cream);
+  --tw-prose-headings: var(--color-cream);
+  --tw-prose-links: var(--color-accent-light);
+  --tw-prose-bold: var(--color-cream);
+  --tw-prose-quotes: var(--color-cream);
+  --tw-prose-quote-borders: var(--color-accent-light);
+  --tw-prose-hr: var(--color-night-rule);
+  --tw-prose-bullets: var(--color-accent-light);
+  --tw-prose-counters: var(--color-accent-light);
+  --tw-prose-captions: var(--color-cream-faint);
+  --tw-prose-code: var(--color-cream);
+}
+
+.prose :where(h2, h3, h4):not(:where(.not-prose, .not-prose *)) {
+  @apply font-sans font-extrabold tracking-tight;
+  scroll-margin-top: 6rem;
+}
+
+.prose :where(h2):not(:where(.not-prose, .not-prose *)) {
+  @apply mt-12 text-3xl;
+}
+
+.prose :where(blockquote):not(:where(.not-prose, .not-prose *)) {
+  @apply border-l-4 py-1 pl-6 text-xl leading-snug font-semibold;
+}
+
+.prose :where(blockquote p):not(:where(.not-prose, .not-prose *))::before,
+.prose :where(blockquote p):not(:where(.not-prose, .not-prose *))::after {
+  content: none;
+}
+
+.topics-track {
+  scrollbar-width: none;
+}
+
+.topics-track::-webkit-scrollbar {
+  display: none;
+}

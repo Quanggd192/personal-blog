@@ -1,0 +1,103 @@
+---
+import type { MarkdownHeading } from 'astro';
+import { Image } from 'astro:assets';
+import BaseLayout from './BaseLayout.astro';
+import TagList from '../components/TagList.astro';
+import Comments from '../components/Comments.astro';
+import { formatCardDate, readingTime, type Post } from '../utils/posts';
+import { SITE } from '../consts';
+
+interface Props {
+  post: Post;
+  headings: MarkdownHeading[];
+  prev?: Post;
+  next?: Post;
+}
+
+const { post, headings, prev, next } = Astro.props;
+const { title, description, pubDate, updatedDate, tags, heroImage } = post.data;
+const toc = headings.filter((h) => h.depth === 2);
+const initial = SITE.author.trim().charAt(0).toUpperCase();
+---
+
+<BaseLayout title={title} description={description} type="article" publishedTime={pubDate} image={heroImage?.src}>
+  <article class="mx-auto max-w-3xl" data-pagefind-body>
+    <header>
+      <TagList tags={tags} />
+      <h1 class="mt-4 text-4xl font-extrabold tracking-tight sm:text-6xl" data-pagefind-meta="title">
+        {title}
+      </h1>
+      <p class="mt-5 text-lg leading-relaxed text-ink-soft dark:text-cream-soft">{description}</p>
+      <div class="mt-6 flex flex-wrap gap-x-4 gap-y-1 text-sm font-semibold text-ink-faint dark:text-cream-faint" data-pagefind-ignore>
+        <span>{SITE.author}</span>
+        <time datetime={pubDate.toISOString()} data-pagefind-meta="date">{formatCardDate(pubDate)}</time>
+        <span>{readingTime(post.body)} phút đọc</span>
+        {updatedDate && <span>Sửa lại {formatCardDate(updatedDate)}</span>}
+      </div>
+      {tags.map((tag) => <span hidden data-pagefind-filter="tag">{tag}</span>)}
+    </header>
+
+    {
+      heroImage && (
+        <Image src={heroImage} alt="" class="mt-8 w-full rounded-[28px]" loading="eager" />
+      )
+    }
+
+    {
+      toc.length > 2 && (
+        <nav class="mt-8 rounded-3xl bg-white p-5 ring-1 ring-rule dark:bg-night-deep dark:ring-night-rule" aria-label="Các phần" data-pagefind-ignore>
+          <p class="text-sm font-semibold text-ink-faint dark:text-cream-faint">Các phần</p>
+          <ol class="mt-3 space-y-2">
+            {toc.map((h) => (
+              <li>
+                <a href={`#${h.slug}`} class="font-semibold no-underline hover:text-accent">
+                  {h.text}
+                </a>
+              </li>
+            ))}
+          </ol>
+        </nav>
+      )
+    }
+
+    <div class="prose mt-10 max-w-none dark:prose-invert">
+      <slot />
+    </div>
+  </article>
+
+  <aside class="mx-auto mt-12 flex max-w-3xl items-start gap-4 rounded-[28px] bg-white p-6 ring-1 ring-rule dark:bg-night-deep dark:ring-night-rule">
+    <span class="grid size-12 shrink-0 place-items-center rounded-full bg-accent text-lg font-bold text-white">{initial}</span>
+    <div>
+      <p class="font-extrabold">{SITE.author}</p>
+      <p class="mt-1 text-sm leading-relaxed text-ink-soft dark:text-cream-soft">{SITE.description}</p>
+      <a href="/about/" class="mt-3 inline-block text-sm font-semibold text-accent no-underline hover:text-ink dark:hover:text-cream">
+        Về người viết
+      </a>
+    </div>
+  </aside>
+
+  <nav class="mx-auto mt-8 grid max-w-3xl gap-4 sm:grid-cols-2" aria-label="Bài khác">
+    {
+      prev ? (
+        <a href={`/blog/${prev.id}/`} class="rounded-3xl bg-white p-5 no-underline ring-1 ring-rule hover:text-accent dark:bg-night-deep dark:ring-night-rule">
+          <span class="text-sm font-semibold text-accent">&larr; Bài trước</span>
+          <span class="mt-2 block text-xl font-extrabold tracking-tight">{prev.data.title}</span>
+        </a>
+      ) : (
+        <span />
+      )
+    }
+    {
+      next && (
+        <a href={`/blog/${next.id}/`} class="rounded-3xl bg-white p-5 text-right no-underline ring-1 ring-rule hover:text-accent dark:bg-night-deep dark:ring-night-rule">
+          <span class="text-sm font-semibold text-accent">Bài sau &rarr;</span>
+          <span class="mt-2 block text-xl font-extrabold tracking-tight">{next.data.title}</span>
+        </a>
+      )
+    }
+  </nav>
+
+  <div class="mx-auto max-w-3xl">
+    <Comments />
+  </div>
+</BaseLayout>
